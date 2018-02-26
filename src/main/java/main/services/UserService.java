@@ -18,7 +18,7 @@ public class UserService {
         @SuppressWarnings("EnumeratedConstantNamingConvention")
         OK,
         INVALID_LOGIN,
-        INVALID_PASSWORD,
+        INCORRECT_PASSWORD,
         LOGIN_OCCUPIED,
         INVALID_AUTH_DATA,
         INVALID_REG_DATA,
@@ -66,7 +66,7 @@ public class UserService {
         }
 
         if (!user.getPassword().equals(userData.getPassword())) {
-            return ErrorCodes.INVALID_PASSWORD;
+            return ErrorCodes.INCORRECT_PASSWORD;
         }
 
         return ErrorCodes.OK;
@@ -90,8 +90,13 @@ public class UserService {
             return ErrorCodes.INVALID_LOGIN;
         }
 
-        user.setPassword(passData.getPassword());
+        if (!user.getPassword().equals(passData.getOldPassword())) {
+            return ErrorCodes.INCORRECT_PASSWORD;
+        }
+
+        user.setPassword(passData.getNewPassword());
         return ErrorCodes.OK;
+
     }
 
     public ErrorCodes getUserInfo(UserInfoForm data, String login) {

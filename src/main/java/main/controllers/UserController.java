@@ -1,21 +1,25 @@
 package main.controllers;
 
+
 import main.models.User;
-import main.views.LoginForm;
-import main.views.MailForm;
-import main.views.UserInfoForm;
-import main.views.PassForm;
+import main.views.*;
 import main.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotNull;
 
 @RestController
 public class UserController {
 
-    private UserService users = new UserService();
+    @NotNull
+    private UserService users;
+
+    public UserController(@NotNull UserService userService) {
+        this.users = userService;
+    }
 
     @RequestMapping(path = "/api/user/signup", method = RequestMethod.POST)
     public ResponseEntity signUp(@RequestBody User signUpData) {
@@ -23,16 +27,16 @@ public class UserController {
 
         switch (error) {
             case INVALID_REG_DATA:
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Some Error");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.BAD_REQUEST);
 
             case LOGIN_OCCUPIED:
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("login is already exist");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.CONFLICT);
 
             case OK:
-                return ResponseEntity.status(HttpStatus.CREATED).body("successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body(ResponseMsg.OK);
 
             default:
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server Error");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseMsg.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -42,20 +46,20 @@ public class UserController {
 
         switch (error) {
             case INVALID_AUTH_DATA:
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid auth data");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.BAD_REQUEST);
 
             case INVALID_LOGIN:
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid login");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.INVALID_LOGIN);
 
-            case INVALID_PASSWORD:
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Password");
+            case INCORRECT_PASSWORD:
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseMsg.INCORRECT_PASSWORD);
 
             case OK:
                 httpSession.setAttribute("userLogin", loginData.getLogin());
-                return ResponseEntity.status(HttpStatus.OK).body("successfully");
+                return ResponseEntity.status(HttpStatus.OK).body(ResponseMsg.OK);
 
             default:
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server Error");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseMsg.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -64,11 +68,11 @@ public class UserController {
         final String login = (String) httpSession.getAttribute("userLogin");
 
         if (login == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("You are not logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.NOT_LOGGED_IN);
         }
 
         httpSession.invalidate();
-        return ResponseEntity.status(HttpStatus.OK).body("successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseMsg.OK);
     }
 
     @RequestMapping(path = "/api/user/changeMail", method = RequestMethod.POST)
@@ -76,20 +80,20 @@ public class UserController {
         final String login = (String) httpSession.getAttribute("userLogin");
 
         if (login == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.NOT_LOGGED_IN);
         }
 
         final UserService.ErrorCodes error = users.changeMail(mailData, login);
 
         switch (error) {
             case OK:
-                return ResponseEntity.status(HttpStatus.OK).body("Successfully");
+                return ResponseEntity.status(HttpStatus.OK).body(ResponseMsg.OK);
 
             case INVALID_LOGIN:
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("You are not logged in");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.INVALID_LOGIN);
 
             default:
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server Error");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseMsg.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -98,20 +102,23 @@ public class UserController {
         final String login = (String) httpSession.getAttribute("userLogin");
 
         if (login == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.NOT_LOGGED_IN);
         }
 
         final UserService.ErrorCodes error = users.changePass(passData, login);
 
         switch (error) {
             case INVALID_LOGIN:
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("You are not logged in");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.INVALID_LOGIN);
+
+            case INCORRECT_PASSWORD:
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseMsg.INCORRECT_PASSWORD);
 
             case OK:
-                return ResponseEntity.status(HttpStatus.OK).body("Successfully");
+                return ResponseEntity.status(HttpStatus.OK).body(ResponseMsg.OK);
 
             default:
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server Error");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseMsg.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -121,20 +128,20 @@ public class UserController {
         String login = (String) httpSession.getAttribute("userLogin");
 
         if (login == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.NOT_LOGGED_IN);
         }
 
-        UserService.ErrorCodes error = users.getUserInfo(data, login);
+        final UserService.ErrorCodes error = users.getUserInfo(data, login);
 
         switch (error) {
             case INVALID_LOGIN:
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("You are not registered\n");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.INVALID_LOGIN);
 
             case OK:
                 return ResponseEntity.status(HttpStatus.OK).body(data);
 
             default:
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server Error");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseMsg.INTERNAL_SERVER_ERROR);
         }
     }
 }

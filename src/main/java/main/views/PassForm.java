@@ -4,19 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PassForm {
 
-    private String password;
+    private String oldPassword;
+    private String newPassword;
 
-    public PassForm(@JsonProperty("password") String password) {
-        this.password = password;
+    public PassForm(@JsonProperty("oldPassword") String oldPassword,
+                    @JsonProperty("newPassword") String newPassword) {
+        this.oldPassword = oldPassword;
+        this.newPassword = newPassword;
     }
 
     @SuppressWarnings("unused")
-    public String getPassword() {
-        return password;
+    public String getOldPassword() {
+        return oldPassword;
     }
 
     @SuppressWarnings("unused")
-    public void setPassword(String password) {
-        this.password = password;
+    public String getNewPassword() {
+        return newPassword;
     }
 }
