@@ -1,10 +1,10 @@
-package main.Services;
+package main.services;
 
-import main.Models.User;
-import main.Views.LoginForm;
-import main.Views.MailForm;
-import main.Views.UserInfoForm;
-import main.Views.PassForm;
+import main.models.User;
+import main.views.LoginForm;
+import main.views.MailForm;
+import main.views.UserInfoForm;
+import main.views.PassForm;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -13,10 +13,8 @@ import java.util.LinkedList;
 public class UserService {
 
     private LinkedList<User> users = new LinkedList<>();
-
     public enum ErrorCodes {
-
-        @SuppressWarnings({"EnumeratedConstantNamingConvention", "unused"})
+        @SuppressWarnings("EnumeratedConstantNamingConvention")
         OK,
         INVALID_LOGIN,
         INVALID_PASSWORD,
@@ -28,7 +26,7 @@ public class UserService {
     private User getUserByLogin(String login) {
 
         for (User user: users) {
-            if (user.getLogin().equals(login)){
+            if (user.getLogin().equals(login)) {
                 return user;
             }
         }
@@ -37,13 +35,6 @@ public class UserService {
     }
 
     public ErrorCodes addUser(User newUser) {
-//        // Проверка на корректность пользователя
-//        for (User user : users) {
-//            // проверка на наличие пользователя с таким же логином и email
-//            System.out.println(user.getEmail());
-//            System.out.println(user.getLogin());
-//            System.out.println(user.getPassword());
-//        }
 
         if (newUser.getLogin() == null || newUser.getEmail() == null || newUser.getPassword() == null) {
             return ErrorCodes.INVALID_REG_DATA;
@@ -51,17 +42,16 @@ public class UserService {
 
         for (User user : users) {
             // проверка на наличие пользователя с таким же логином и email
-            if (user.equals(newUser)) {
+            if (user.getLogin().equals(newUser.getLogin())  || user.getEmail().equals(newUser.getEmail())) {
                 return ErrorCodes.LOGIN_OCCUPIED;
             }
         }
+
         users.add(newUser);
         return ErrorCodes.OK;
-
     }
 
     public ErrorCodes login(LoginForm userData) {
-
         final String login = userData.getLogin();
 
         if (login == null || userData.getPassword() == null) {
@@ -79,7 +69,6 @@ public class UserService {
         }
 
         return ErrorCodes.OK;
-
     }
 
     public ErrorCodes changeMail(MailForm newMail, String login) {
@@ -90,12 +79,10 @@ public class UserService {
         }
 
         user.setEmail(newMail.getUserMail());
-
         return ErrorCodes.OK;
     }
 
     public ErrorCodes changePass(PassForm passData, String login) {
-
         final User user = getUserByLogin(login);
 
         if (user == null) {
@@ -103,24 +90,18 @@ public class UserService {
         }
 
         user.setPassword(passData.getPassword());
-
         return ErrorCodes.OK;
-
     }
 
     public ErrorCodes getUserInfo(UserInfoForm data, String login) {
-
         User user = getUserByLogin(login);
 
         if (login == null || user == null) {
             return ErrorCodes.INVALID_LOGIN;
         }
 
-        data.login = user.getLogin();
-        data.email = user.getEmail();
-
+        data.setLogin(user.getLogin());
+        data.setEmail(user.getEmail());
         return ErrorCodes.OK;
-
     }
-
 }

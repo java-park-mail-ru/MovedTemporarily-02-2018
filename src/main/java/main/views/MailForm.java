@@ -1,10 +1,10 @@
-package main.Views;
+package main.views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class MailForm {
-    private String userMail;
 
+    private String userMail;
 
     public MailForm(@JsonProperty("userMail") String userMail) {
         this.userMail = userMail;

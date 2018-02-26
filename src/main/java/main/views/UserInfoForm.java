@@ -1,13 +1,16 @@
-package main.Views;
+package main.views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 @SuppressWarnings("unused")
 public class UserInfoForm {
 
-    public String login;
-    public String email;
+    private String login;
+    private String email;
 
-    public UserInfoForm() {}
+    public UserInfoForm() {
+
+    }
 
     public UserInfoForm(@JsonProperty("login") String login, @JsonProperty("email") String email) {
         this.login = login;

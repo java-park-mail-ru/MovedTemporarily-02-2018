@@ -1,4 +1,4 @@
-package main.Views;
+package main.views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -7,7 +7,6 @@ public final class LoginForm {
 
     private String login;
     private String password;
-
 
     public LoginForm(@JsonProperty("login") String login, @JsonProperty("password") String password) {
         this.login = login;

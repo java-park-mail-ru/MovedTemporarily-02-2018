@@ -1,8 +1,9 @@
-package main.Views;
+package main.views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PassForm {
+
     private String password;
 
     public PassForm(@JsonProperty("password") String password) {

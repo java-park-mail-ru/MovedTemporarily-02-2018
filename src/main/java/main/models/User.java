@@ -1,4 +1,4 @@
-package main.Models;
+package main.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,28 +13,12 @@ public final class User {
     @NotNull private String password;
 
     @JsonCreator
-    User(@JsonProperty("email") String email, @JsonProperty("login") String login,
+    User(@JsonProperty("email") String email,
+         @JsonProperty("login") String login,
          @JsonProperty("password") String password) {
         this.email = email;
         this.login = login;
         this.password = password;
-
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-
-        if (!(other instanceof User)) {
-            return false;
-        }
-
-        User oth = (User) other;
-
-        return email.equals(oth.email) || login.equals(oth.login);
-
     }
 
     public String getEmail() {
