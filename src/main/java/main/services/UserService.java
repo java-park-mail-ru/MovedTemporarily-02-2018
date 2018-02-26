@@ -13,6 +13,7 @@ import java.util.LinkedList;
 public class UserService {
 
     private LinkedList<User> users = new LinkedList<>();
+    
     public enum ErrorCodes {
         @SuppressWarnings("EnumeratedConstantNamingConvention")
         OK,
