@@ -1,11 +1,11 @@
 # MovedTemporarily-02-2018
 Java course 02.2018. Project: MovedTemporarily
 
-##REST API
-###Sign up
-####URL: `/api/user/signup`
-####Method: `POST`
-####Params
+## REST API
+### Sign up
+#### URL: `/api/user/signup`
+#### Method: `POST`
+#### Params
 ```
 {
     "login": string,
@@ -14,10 +14,10 @@ Java course 02.2018. Project: MovedTemporarily
 }
 ```
 
-###Login
-####URL: /api/user/login`
-####Method: `POST`
-####Params
+### Login
+#### URL: `/api/user/login`
+#### Method: `POST`
+#### Params
 ```
 {
     "login": string,
@@ -25,24 +25,24 @@ Java course 02.2018. Project: MovedTemporarily
 }
 ```
 
-###Log out
-####URL: `/api/user/logout`
-####Method: `GET`
+### Log out
+#### URL: `/api/user/logout`
+#### Method: `GET`
 
-###Change email
-####URL: /api/user/changeEmail`
-####Method: `POST`
-####Params
+### Change email
+#### URL: /api/user/changeEmail`
+#### Method: `POST`
+#### Params
 ```
 {
     "newEmail": string,
 }
 ```
 
-###Change password
-####URL: /api/user/changePass`
-####Method: `POST`
-####Params
+### Change password
+#### URL: /api/user/changePass`
+#### Method: `POST`
+#### Params
 ```
 {
     "oldPassword": string,
@@ -50,6 +50,6 @@ Java course 02.2018. Project: MovedTemporarily
 }
 ```
 
-###User Info
-####URL: `/api/user/data`
-####Method: `GET`
+### User Info
+#### URL: `/api/user/info`
+#### Method: `GET`
