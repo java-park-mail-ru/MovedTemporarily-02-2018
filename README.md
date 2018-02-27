@@ -2,17 +2,18 @@
 Java course 02.2018. Project: MovedTemporarily
 
 ## REST API
-### Sign up
-#### URL: `/api/user/signup`
-#### Method: `POST`
-#### Params
-```
-{
-    "login": string,
-    "email": string,
-    "password": string,
-}
-```
++ ### Sign up
+  - #### URL: `/api/user/signup`
+  - #### Method: `POST`
+  - #### Params
+
+   ```
+    {
+        "login": string,
+        "email": string,
+        "password": string,
+    }
+    ```
 
 ### Login
 #### URL: `/api/user/login`
