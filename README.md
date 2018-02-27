@@ -15,42 +15,42 @@ Java course 02.2018. Project: MovedTemporarily
     }
     ```
 
-### Login
-#### URL: `/api/user/login`
-#### Method: `POST`
-#### Params
-```
-{
-    "login": string,
-    "password": string,
-}
-```
++ ### Login
+    - #### URL: `/api/user/login`
+    - #### Method: `POST`
+    - #### Params
+    ```
+    {
+        "login": string,
+        "password": string,
+    }
+    ```
 
-### Log out
-#### URL: `/api/user/logout`
-#### Method: `GET`
++ ### Log out
+    - #### URL: `/api/user/logout`
+    - #### Method: `GET`
 
-### Change email
-#### URL: /api/user/changeEmail`
-#### Method: `POST`
-#### Params
-```
-{
-    "newEmail": string,
-}
-```
++ ### Change email
+    - #### URL: /api/user/changeEmail`
+    - #### Method: `POST`
+    - #### Params
+    ```
+    {
+        "newEmail": string,
+    }
+    ```
 
-### Change password
-#### URL: /api/user/changePass`
-#### Method: `POST`
-#### Params
-```
-{
-    "oldPassword": string,
-    "newPassword": string,
-}
-```
++ ### Change password
+    - #### URL: /api/user/changePass`
+    - #### Method: `POST`
+    - #### Params
+    ```
+    {
+        "oldPassword": string,
+        "newPassword": string,
+    }
+    ```
 
-### User Info
-#### URL: `/api/user/info`
-#### Method: `GET`
++ ### User Info
+    - #### URL: `/api/user/info`
+    - #### Method: `GET`
