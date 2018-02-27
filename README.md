@@ -31,7 +31,7 @@ Java course 02.2018. Project: MovedTemporarily
     - #### Method: `GET`
 
 + ### Change email
-    - #### URL: /api/user/changeEmail`
+    - #### URL: `/api/user/changeEmail`
     - #### Method: `POST`
     - #### Params
     ```
@@ -41,7 +41,7 @@ Java course 02.2018. Project: MovedTemporarily
     ```
 
 + ### Change password
-    - #### URL: /api/user/changePass`
+    - #### URL: `/api/user/changePass`
     - #### Method: `POST`
     - #### Params
     ```
