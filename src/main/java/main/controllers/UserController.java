@@ -63,7 +63,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(path = "/api/user/logout", method = RequestMethod.POST)
+    @RequestMapping(path = "/api/user/logout", method = RequestMethod.GET)
     public ResponseEntity logOut(HttpSession httpSession) {
         final String login = (String) httpSession.getAttribute("userLogin");
 
@@ -75,7 +75,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseMsg.OK);
     }
 
-    @RequestMapping(path = "/api/user/changeMail", method = RequestMethod.POST)
+    @RequestMapping(path = "/api/user/changeEmail", method = RequestMethod.POST)
     public ResponseEntity changeMail(@RequestBody MailForm mailData, HttpSession httpSession) {
         final String login = (String) httpSession.getAttribute("userLogin");
 
@@ -122,7 +122,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(path = "api/user/data", method = RequestMethod.GET)
+    @RequestMapping(path = "api/user/info", method = RequestMethod.GET)
     public ResponseEntity currentUserInfo(HttpSession httpSession) {
         final UserInfoForm  data = new UserInfoForm();
         final String login = (String) httpSession.getAttribute("userLogin");
