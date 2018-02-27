@@ -15,8 +15,7 @@ public class UserService {
     private LinkedList<User> users = new LinkedList<>();
     
     public enum ErrorCodes {
-        @SuppressWarnings("EnumeratedConstantNamingConvention")
-        OK,
+        @SuppressWarnings("EnumeratedConstantNamingConvention") OK,
         INVALID_LOGIN,
         INCORRECT_PASSWORD,
         LOGIN_OCCUPIED,

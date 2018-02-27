@@ -2,15 +2,14 @@ package main.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 public final class User {
 
-    private String email;
-    @NotNull private String login;
-    @NotNull private String password;
+    private @NotNull String email;
+    private @NotNull String login;
+    private @NotNull String password;
 
     @JsonCreator
     User(@JsonProperty("email") String email,

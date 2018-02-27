@@ -2,11 +2,13 @@ package main.views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+
 
 public final class LoginForm {
 
-    private String login;
-    private String password;
+    private @NotNull String login;
+    private @NotNull String password;
 
     public LoginForm(@JsonProperty("login") String login, @JsonProperty("password") String password) {
         this.login = login;

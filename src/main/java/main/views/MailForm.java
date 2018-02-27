@@ -2,11 +2,13 @@ package main.views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+
 public final class MailForm {
 
-    private String userMail;
+    private @NotNull String userMail;
 
-    public MailForm(@JsonProperty("userMail") String userMail) {
+    public MailForm(@JsonProperty("newEmail") String userMail) {
         this.userMail = userMail;
     }
 

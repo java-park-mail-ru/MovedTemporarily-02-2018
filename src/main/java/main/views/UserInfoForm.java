@@ -2,11 +2,13 @@ package main.views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+
 @SuppressWarnings("unused")
 public class UserInfoForm {
 
-    private String login;
-    private String email;
+    private @NotNull String login;
+    private @NotNull String email;
 
     public UserInfoForm() {
 

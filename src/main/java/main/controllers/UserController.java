@@ -14,15 +14,14 @@ import javax.validation.constraints.NotNull;
 @RestController
 public class UserController {
 
-    @NotNull
-    private UserService users;
+    private @NotNull UserService users;
 
     public UserController(@NotNull UserService userService) {
         this.users = userService;
     }
 
     @RequestMapping(path = "/api/user/signup", method = RequestMethod.POST)
-    public ResponseEntity signUp(@RequestBody User signUpData) {
+    public ResponseEntity signUp(@RequestBody User signUpData, HttpSession httpSession) {
         final UserService.ErrorCodes error = users.addUser(signUpData);
 
         switch (error) {
@@ -30,9 +29,10 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.BAD_REQUEST);
 
             case LOGIN_OCCUPIED:
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.CONFLICT);
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseMsg.CONFLICT);
 
             case OK:
+                httpSession.setAttribute("userLogin", signUpData.getLogin());
                 return ResponseEntity.status(HttpStatus.CREATED).body(ResponseMsg.OK);
 
             default:
@@ -124,8 +124,8 @@ public class UserController {
 
     @RequestMapping(path = "api/user/data", method = RequestMethod.GET)
     public ResponseEntity currentUserInfo(HttpSession httpSession) {
-        UserInfoForm data = new UserInfoForm();
-        String login = (String) httpSession.getAttribute("userLogin");
+        final UserInfoForm  data = new UserInfoForm();
+        final String login = (String) httpSession.getAttribute("userLogin");
 
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.NOT_LOGGED_IN);

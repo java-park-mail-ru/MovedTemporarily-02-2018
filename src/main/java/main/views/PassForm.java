@@ -2,10 +2,12 @@ package main.views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+
 public class PassForm {
 
-    private String oldPassword;
-    private String newPassword;
+    private @NotNull String oldPassword;
+    private @NotNull String newPassword;
 
     public PassForm(@JsonProperty("oldPassword") String oldPassword,
                     @JsonProperty("newPassword") String newPassword) {
