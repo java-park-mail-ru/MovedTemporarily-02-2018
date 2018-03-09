@@ -7,13 +7,13 @@ import main.views.UserInfoForm;
 import main.views.PassForm;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 @Service
 public class UserService {
 
-    private LinkedList<User> users = new LinkedList<>();
-    
+    private ArrayList<User> users = new ArrayList<>();
+
     public enum ErrorCodes {
         @SuppressWarnings("EnumeratedConstantNamingConvention") OK,
         INVALID_LOGIN,
@@ -99,7 +99,7 @@ public class UserService {
     }
 
     public ErrorCodes getUserInfo(UserInfoForm data, String login) {
-        User user = getUserByLogin(login);
+        final User user = getUserByLogin(login);
 
         if (login == null || user == null) {
             return ErrorCodes.INVALID_LOGIN;

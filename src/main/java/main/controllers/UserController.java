@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
+//@CrossOrigin(origins = "http://localhost:9000")
 @RestController
 public class UserController {
 
