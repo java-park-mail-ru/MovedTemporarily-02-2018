@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
-//@CrossOrigin(origins = "https://moved-temporarily-front.herokuapp.com")
+@CrossOrigin(origins = "https://moved-temporarily-front.herokuapp.com")
 @RestController
 public class UserController {
 
