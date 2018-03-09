@@ -5,13 +5,13 @@ import main.models.User;
 import main.views.*;
 import main.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
-//@CrossOrigin(origins = "http://localhost:9000")
+@CrossOrigin(origins = "https://moved-temporarily-front.herokuapp.com")
 @RestController
 public class UserController {
 
@@ -146,11 +146,13 @@ public class UserController {
         }
     }
 
-    @RequestMapping(path = "api/user/score", method = RequestMethod.GET)
+    @ResponseBody
+    @RequestMapping(path = "api/user/score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity allScoreBoard() {
         return ResponseEntity.status(HttpStatus.OK).body(users.getScoreBoard());
     }
 
+    @ResponseBody
     @RequestMapping(path = "api/user/score", method = RequestMethod.POST)
     public ResponseEntity partScoreBoard(@RequestBody ScoreRequest scoreReq) {
         if (scoreReq.getPosition() == null || scoreReq.getCount() == null) {
