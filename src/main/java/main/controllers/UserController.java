@@ -41,10 +41,10 @@ public class UserController {
         }
     }
 
-    @RequestMapping(path = "/api/user/login", method = RequestMethod.POST)
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
     public ResponseEntity logIn(@RequestBody LoginForm loginData, HttpSession httpSession) {
         final UserService.ErrorCodes error = users.login(loginData);
-
+        System.out.println(loginData.getLogin() + " "  + loginData.getPassword());
         switch (error) {
             case INVALID_AUTH_DATA:
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.BAD_REQUEST);
