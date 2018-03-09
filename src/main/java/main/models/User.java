@@ -10,14 +10,22 @@ public final class User {
     private @NotNull String email;
     private @NotNull String login;
     private @NotNull String password;
+    private Integer score;
 
     @JsonCreator
-    User(@JsonProperty("email") String email,
+    public User(@JsonProperty("email") String email,
          @JsonProperty("login") String login,
-         @JsonProperty("password") String password) {
+         @JsonProperty("password") String password,
+         @JsonProperty("score") Integer score) {
         this.email = email;
         this.login = login;
         this.password = password;
+        if (score == null) {
+            this.score = 0;
+        } else {
+            this.score = score;
+        }
+
     }
 
     public String getEmail() {
@@ -42,6 +50,10 @@ public final class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getScore() {
+        return score;
     }
 
 }

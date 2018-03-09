@@ -1,18 +1,19 @@
 package main.services;
 
 import main.models.User;
-import main.views.LoginForm;
-import main.views.MailForm;
-import main.views.UserInfoForm;
-import main.views.PassForm;
+import main.views.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.*;
 
 @Service
 public class UserService {
 
     private ArrayList<User> users = new ArrayList<>();
+
+    UserService() {
+        addTestUser();
+    }
 
     public enum ErrorCodes {
         @SuppressWarnings("EnumeratedConstantNamingConvention") OK,
@@ -21,6 +22,17 @@ public class UserService {
         LOGIN_OCCUPIED,
         INVALID_AUTH_DATA,
         INVALID_REG_DATA,
+    }
+
+    private void addTestUser() {
+        final int count = 10 * 3;
+        for (int i = 0; i < count; i++) {
+            final String login = "test" + String.valueOf(i);
+            final String email = "test" + String.valueOf(i) + "@mail.ru";
+            final String pass = "pass";
+            final Integer score = i * 10;
+            users.add(new User(email, login, pass, score));
+        }
     }
 
     private User getUserByLogin(String login) {
@@ -108,5 +120,29 @@ public class UserService {
         data.setLogin(user.getLogin());
         data.setEmail(user.getEmail());
         return ErrorCodes.OK;
+    }
+
+
+    public ArrayList<ScoreView> getScoreBoard() {
+        final ArrayList<ScoreView> result = new ArrayList<>();
+
+        for (User user: users) {
+            result.add(new ScoreView(user));
+        }
+
+        result.sort(new ScoreView.ScoreComparator());
+        return result;
+    }
+
+    public ArrayList<ScoreView> getScoreBoard(Integer from, Integer count) {
+        if (from > users.size()) {
+            return new ArrayList<>();
+        }
+
+        if (from + count > users.size()) {
+            count = users.size() - from;
+        }
+
+        return new ArrayList<>(getScoreBoard().subList(from, from + count));
     }
 }

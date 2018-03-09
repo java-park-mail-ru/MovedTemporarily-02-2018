@@ -145,5 +145,19 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseMsg.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(path = "api/user/score", method = RequestMethod.GET)
+    public ResponseEntity allScoreBoard() {
+        return ResponseEntity.status(HttpStatus.OK).body(users.getScoreBoard());
+    }
+
+    @RequestMapping(path = "api/user/score", method = RequestMethod.POST)
+    public ResponseEntity partScoreBoard(@RequestBody ScoreRequest scoreReq) {
+        if (scoreReq.getPosition() == null || scoreReq.getCount() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.BAD_REQUEST);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(users.getScoreBoard(scoreReq.getPosition(), scoreReq.getCount()));
+    }
+
 }
 
