@@ -20,6 +20,7 @@ public class UserService {
         INVALID_LOGIN,
         INCORRECT_PASSWORD,
         LOGIN_OCCUPIED,
+        EMAIL_OCCUPIED,
         INVALID_AUTH_DATA,
         INVALID_REG_DATA,
     }
@@ -46,6 +47,27 @@ public class UserService {
         return null;
     }
 
+    private User getUserByEmail(String email) {
+
+        for (User user: users) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+    public String getLoginByEmail(String email) {
+        final User user = getUserByEmail(email);
+
+        if (user == null) {
+            return null;
+        }
+
+        return user.getLogin();
+    }
+
     public ErrorCodes addUser(User newUser) {
 
         if (newUser.getLogin() == null || newUser.getEmail() == null || newUser.getPassword() == null) {
@@ -65,12 +87,19 @@ public class UserService {
 
     public ErrorCodes login(LoginForm userData) {
         final String login = userData.getLogin();
+        final String email = userData.getEmail();
 
-        if (login == null || userData.getPassword() == null) {
+        if ((email == null && login == null) || userData.getPassword() == null) {
             return ErrorCodes.INVALID_AUTH_DATA;
         }
 
-        final User user = getUserByLogin(login);
+        final User user;
+
+        if (email != null) {
+            user = getUserByEmail(email);
+        } else {
+            user = getUserByLogin(login);
+        }
 
         if (user == null) {
             return ErrorCodes.INVALID_LOGIN;
@@ -88,6 +117,11 @@ public class UserService {
 
         if (user == null) {
             return ErrorCodes.INVALID_LOGIN;
+        }
+
+        final User checkEmail = getUserByEmail(newMail.getUserMail());
+        if (checkEmail != null) {
+            return ErrorCodes.EMAIL_OCCUPIED;
         }
 
         user.setEmail(newMail.getUserMail());

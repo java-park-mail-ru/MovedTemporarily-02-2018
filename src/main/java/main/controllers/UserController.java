@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
-@CrossOrigin(origins = "https://moved-temporarily-front.herokuapp.com")
+//@CrossOrigin(origins = "https://moved-temporarily-front.herokuapp.com")
 @RestController
 public class UserController {
 
@@ -44,7 +44,8 @@ public class UserController {
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public ResponseEntity logIn(@RequestBody LoginForm loginData, HttpSession httpSession) {
         final UserService.ErrorCodes error = users.login(loginData);
-        System.out.println(loginData.getLogin() + " "  + loginData.getPassword());
+        System.out.println(loginData.getLogin() + ' '  + loginData.getPassword());
+        System.out.println("login");
         switch (error) {
             case INVALID_AUTH_DATA:
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.BAD_REQUEST);
@@ -56,7 +57,11 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseMsg.INCORRECT_PASSWORD);
 
             case OK:
-                httpSession.setAttribute("userLogin", loginData.getLogin());
+                if (loginData.getLogin() != null) {
+                    httpSession.setAttribute("userLogin", loginData.getLogin());
+                } else {
+                    httpSession.setAttribute("userLogin", users.getLoginByEmail(loginData.getEmail()));
+                }
                 return ResponseEntity.status(HttpStatus.OK).body(ResponseMsg.OK);
 
             default:
@@ -92,6 +97,9 @@ public class UserController {
 
             case INVALID_LOGIN:
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseMsg.INVALID_LOGIN);
+
+            case EMAIL_OCCUPIED:
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseMsg.CONFLICT);
 
             default:
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseMsg.INTERNAL_SERVER_ERROR);
