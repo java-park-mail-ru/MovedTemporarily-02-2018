@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
-@CrossOrigin(origins = "https://moved-temporarily-front.herokuapp.com")
+
+@CrossOrigin(origins = {"https://moved-temporarily-front.herokuapp.com"})
 @RestController
 public class UserController {
 
@@ -24,7 +25,6 @@ public class UserController {
     @RequestMapping(path = "/api/user/signup", method = RequestMethod.POST)
     public ResponseEntity signUp(@RequestBody User signUpData, HttpSession httpSession) {
         final UserService.ErrorCodes error = users.addUser(signUpData);
-
         switch (error) {
             case INVALID_REG_DATA:
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.BAD_REQUEST);
@@ -41,11 +41,9 @@ public class UserController {
         }
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    @RequestMapping(path = "api/user/login", method = RequestMethod.POST)
     public ResponseEntity logIn(@RequestBody LoginForm loginData, HttpSession httpSession) {
         final UserService.ErrorCodes error = users.login(loginData);
-        System.out.println(loginData.getLogin() + ' '  + loginData.getPassword());
-        System.out.println("login");
         switch (error) {
             case INVALID_AUTH_DATA:
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseMsg.BAD_REQUEST);
@@ -157,6 +155,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping(path = "api/user/score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity allScoreBoard() {
+//        HashMap<String, ArrayList<ScoreView>> result = new HashMap<>();
+//        result.put("players", users.getScoreBoard());
         return ResponseEntity.status(HttpStatus.OK).body(users.getScoreBoard());
     }
 

@@ -6,4 +6,4 @@ target
 .idea/dictionaries
 .idea/dictionaries/mac.xml
 .idea/
-
+*.log
