@@ -155,8 +155,6 @@ public class UserController {
     @ResponseBody
     @RequestMapping(path = "api/user/score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity allScoreBoard() {
-//        HashMap<String, ArrayList<ScoreView>> result = new HashMap<>();
-//        result.put("players", users.getScoreBoard());
         return ResponseEntity.status(HttpStatus.OK).body(users.getScoreBoard());
     }
 
