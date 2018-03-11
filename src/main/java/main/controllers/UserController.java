@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
 
-@CrossOrigin(origins = {"https://moved-temporarily-front.herokuapp.com"})
+@CrossOrigin(origins = {"https://moved-temporarily-front.herokuapp.com"}, allowCredentials = "true")
 @RestController
 public class UserController {
 
