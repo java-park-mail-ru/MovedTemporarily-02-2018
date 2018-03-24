@@ -1,0 +1,9 @@
+*.DS_STORE
+target
+*.iml
+.idea/**/workspace.xml
+.idea/**/mac.xml
+.idea/dictionaries
+.idea/dictionaries/mac.xml
+.idea/
+*.log
